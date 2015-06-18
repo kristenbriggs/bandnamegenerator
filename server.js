@@ -1,34 +1,63 @@
-var express = require("express");
+'use strict';
+var getRandomWord = require('./getRandom.js');
+var adjective = require('./adjective.js');
+var noun = require('./noun.js');
+var verb = require('./verb.js');
+
+var express = require('express');
+var bodyParser = require('body-parser');
+
 var app = express();
 var port = process.env.PORT || 3000;
-app.use(express.static(__dirname + "/app"));
-app.listen(port, function()  {
-    console.log('server started on port ' + port);
+
+var bodyparser = require("body-parser");
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended: true}));
+
+app.use(express.static(__dirname + '/app/'));
+
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
+
+app.post('/post_adjective', function(req, res) {
+  console.log(req.body.word);
+  adjective[req.body.word] = true;
+  res.json({message: "Ya did it!", confirm: req.body.word})
 });
 
-var quotes = ["I have not failed.  I've just found 10,000 ways that do not work. - Thomas Edison", "No matter where you go, there you are.", "If it is a good idea, go ahead and do it. It is much easier to apologize than to get permission. - Rear Admiral Grace Hopper, USN, Ph.D."];
-
-app.get("/quote", function (req, res)  {
-    var randomIndex =
-    Math.floor(Math.random()*quotes.length);
-    res.send(quotes[randomIndex]);
+app.post('/post_noun', function(req, res) {
+  console.log(req.body.word);
+  noun[req.body.word] = true;
+  res.json({message: "Ya did it!", confirm: req.body.word})
 });
 
-var adjectives = [
-  "Beautiful",
-  "Sick",
-  "Gorgeous",
-  "DumbAss",
-  "Hot",
-  ];
-app.get('/', function(req, res)  {
-    res.sendFile('index.html');
-})
-app.get("/adjectives", function (req, res)  {
-    var randomIndex =
-    Math.floor(Math.random()*adjectives.length);
-    res.json(adjectives[randomIndex]);
+app.post('/post_verb', function(req, res) {
+  console.log(req.body.word);
+  verb[req.body.word] = true;
+  res.json({message: "Ya did it!", confirm: req.body.word})
 });
 
+app.get('/get_adjective', function(req, res) {
+  // console.log("adjective => "+ adjective)
+  res.json(getRandomWord(adjective()));
+});
 
+app.get('/get_verb', function(req, res) {
+  res.json(getRandomWord(verb()));
+});
 
+app.get('/get_noun', function(req, res) {
+  res.json(getRandomWord(noun()));
+});
+
+app.get('/', function(req, res) {
+  res.sendFile('index.html');
+});
+
+app.listen(port, function() {
+  console.log('server starting. available at http://localhost:' + port);
+});
+
+// app.get('/', function(req, res) {
+//   res.send('hello, universe');
+// });

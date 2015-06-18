@@ -1,4 +1,15 @@
 {
+<<<<<<< HEAD
+  "name": "simple-site",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stephanielingwood/band-name-generator"
+  },
+  "description": "Example Site for JavaScript F2 at Code Fellows",
+  "dependencies": {
+    "body-parser": "^1.13.0",
+=======
   "name": "serverSide",
   "version": "0.0.0",
   "repository": {
@@ -7,6 +18,7 @@
   },
   "description": "Band Generator for CF JS F2",
   "dependencies": {
+>>>>>>> f30b371d47cb2ddfdf76783f38dd5657a893e9e5
     "express": "^4.12.4"
   },
   "devDependencies": {
